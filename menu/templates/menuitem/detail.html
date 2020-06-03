@@ -4,14 +4,35 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-
+    <style>
+      .box {
+        width: 25%;
+        height: 25%;
+        border: 2px dashed #f7a239;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
 
 </head>
 <body>
 
-
+<h1>
     {{ object.title }}
+</h1>
+
+<h2>
     {{ object.description }}
+</h2>
+
+    <div class="box">
+        <img src="{{ object.image.url }}" />
+    </div>
+<!--    {{ object.image.url }} -->
+
+
     <br/>
 
 </body>
