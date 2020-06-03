@@ -22,9 +22,26 @@ def upload_image_path(instance, filename):
         final_filename = final_filename
         )
 
+
+class MenuItemQuerySet(models.query.QuerySet):
+    def active(self):
+        return self.filter(active=True)
+
+    def featured(self):
+        return self.filter(featured=True, active=True)
+
 class MenuItemManager(models.Manager):
+    def get_queryset(self):
+        return MenuItemQuerySet(self.model, using=self.db)
+
+    def all(self):
+        return self.get_queryset().active()
+
+    def features(self):             # MenuItem.objects.featured()
+        return self.get_queryset().featured()
+
     def get_by_id(self, id):
-        qs = self.get_queryset().filter(id = id)  # MenuItem.object equivalent
+        qs = self.get_queryset().filter(id = id)  # MenuItem.objects == self.get_queryset()
         if qs.count() == 1:
             return qs.first()
         return None
@@ -35,6 +52,8 @@ class MenuItem(models.Model):   # Menu category
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=5, default=5.99)
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+    featured    = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     objects = MenuItemManager()
 

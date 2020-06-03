@@ -5,6 +5,28 @@ from .models import MenuItem
 
 # Create your views here.
 
+class MenuFeaturedListView(ListView):
+    template_name = "menuitem/list.html"
+
+    def get_queryset(self, *args, **kwargs ):
+        request = self.request
+        return MenuItem.objects.features()
+
+
+
+class MenuFeaturedDetailView(DetailView):
+    queryset = MenuItem.objects.features()
+    template_name = "menuitem/featured-detail.html"
+
+    # def get_queryset(self, *args, **kwargs ):
+    #     request = self.request
+    #     return MenuItem.objects.featured()
+
+
+
+
+
+
 class MenuListView(ListView):
     queryset = MenuItem.objects.all()
     template_name = "menuitem/list.html"
