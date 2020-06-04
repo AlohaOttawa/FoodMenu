@@ -13,6 +13,6 @@ from .views import (
 
 
 urlpatterns = [
-    path('', MenuListView.as_view()),
+    path('', MenuListView.as_view(), name='list'),
     re_path(r'^(?P<slug>[\w-]+)/$', MenuDetailSlugView.as_view(), name='details'),
 ]

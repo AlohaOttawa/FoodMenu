@@ -3,6 +3,7 @@ import random
 
 from django.db import models
 from django.db.models.signals import pre_save
+from django.urls import reverse
 
 # Create your models here.
 
@@ -69,7 +70,9 @@ class MenuItem(models.Model):   # Menu category
 
 
     def get_absolute_url(self):
-        return "/menuitems/{slug}/".format(slug=self.slug)
+        # return "/menuitems/{slug}/".format(slug=self.slug)
+        # above is same as below but now uses the logical shortcut vs hardcoded menuitems
+        return reverse("menuitems:details", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.title
