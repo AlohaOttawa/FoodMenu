@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+<!-- No longer needed
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +11,22 @@
 
 </head>
 <body>
+-->
 
+{% block content %}
 
-{% for obj in object_list %}
+    {% for obj in object_list %}
 
-    <a href="{{ obj.get_absolute_url }}"> {{ obj.title }} </a>
-    <br/>
+        {% include "menuitem/snippets/card.html" %}
+        <a href="{{ obj.get_absolute_url }}"> {{ obj.title }} </a>
+        <br/>
 
-{% endfor %}
+    {% endfor %}
+
+{% endblock content %}
+
+<!-- No longer needed
 </body>
 </html>
+
+-->
