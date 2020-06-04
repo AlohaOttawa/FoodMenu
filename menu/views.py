@@ -48,6 +48,30 @@ def menu_list_view(request):  #same as class view above but more complex
     }
     return render(request, "menuitem/list.html", context)
 
+
+
+class MenuDetailSlugView(DetailView):
+    queryset = MenuItem.objects.all()
+    template_name = "menuitem/detail.html"
+
+    def get_object(self, *args, **kwargs):
+        request = self.request
+        slug = self.kwargs.get("slug")
+
+        # instance = get_object_or_404(MenuItem, slug=slug, active=True)
+
+        try:
+            instance = MenuItem.objects.get(slug=slug, active=True)
+        except MenuItem.DoesNotExist:
+            raise Http404("Not found ...")
+        except MenuItem.MultipleObjectsReturned:
+            qs = MenuItem.objects.filter(slug=slug, active=True)
+            instance = qs.first()
+        except:
+            raise Http404("some other error")
+        return instance
+
+
 class MenuDetailView(DetailView):
     # queryset = MenuItem.objects.all()
     template_name = "menuitem/detail.html"

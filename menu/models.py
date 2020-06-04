@@ -1,10 +1,12 @@
-from django.db import models
-
 import os
 import random
 
+from django.db import models
+from django.db.models.signals import pre_save
 
 # Create your models here.
+
+from .utils import unique_slug_generator
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -47,8 +49,16 @@ class MenuItemManager(models.Manager):
         return None
  #      return self.get_queryset().filter(id = id)  # MenuItem.object equivalent
 
+
+# generate slug before Menu Item is saved
+
+
+
+
+
 class MenuItem(models.Model):   # Menu category
     title       = models.CharField(max_length=120)
+    slug        = models.SlugField(default='abc', blank=True, unique=True)  # for url referencing purposes
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=5, default=5.99)
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
@@ -57,5 +67,16 @@ class MenuItem(models.Model):   # Menu category
 
     objects = MenuItemManager()
 
+
+    def get_absolute_url(self):
+        return "/menuitems/{slug}/".format(slug=self.slug)
+
     def __str__(self):
         return self.title
+
+
+def mmenuitem_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+pre_save.connect(mmenuitem_pre_save_receiver, sender=MenuItem)

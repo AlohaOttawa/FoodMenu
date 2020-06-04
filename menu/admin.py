@@ -4,4 +4,9 @@ from django.contrib import admin
 
 from .models import MenuItem
 
-admin.site.register(MenuItem)
+class MenuItemAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'slug']
+    class Meta:
+        model = MenuItem
+
+admin.site.register(MenuItem, MenuItemAdmin)
