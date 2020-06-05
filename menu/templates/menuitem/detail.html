@@ -5,31 +5,38 @@
 
     <!-- make the pictures smaller on the browser -->
     <style>
-      .box {
-        width: 25%;
-        height: 25%;
-        border: 2px dashed #f7a239;
-      }
-      img {
-        width: 100%;
-        height: 100%;
-      }
+        .box {
+            width: 25%;
+            height: 25%;
+            border: 2px dashed #f7a239;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 
-    <h1>
-        {{ object.title }}
-    </h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
 
-    <h2>
-        {{ object.description }}
-    </h2>
+                <h1>
+                    {{ object.title }}
+                </h1>
+            {{ object.timestamp|date:"D d M Y P" }}
 
-    <div class="box">
-        {% if object.image %}
-            <img src="{{ object.image.url }}" />
-        {% endif %}
+
+                    {{ object.description|linebreaks }}
+
+
+                <div class="box">
+                    {% if object.image %}
+                        <img src="{{ object.image.url }}" />
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
-
 
 {% endblock content %}
 <!--

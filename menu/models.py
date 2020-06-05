@@ -59,12 +59,13 @@ class MenuItemManager(models.Manager):
 
 class MenuItem(models.Model):   # Menu category
     title       = models.CharField(max_length=120)
-    slug        = models.SlugField(default='abc', blank=True, unique=True)  # for url referencing purposes
+    slug        = models.SlugField(blank=True, unique=True)  # for url referencing purposes
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=5, default=5.99)
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     featured    = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
+    timestamp   = models.DateTimeField(auto_now_add=True)
 
     objects = MenuItemManager()
 
@@ -78,8 +79,8 @@ class MenuItem(models.Model):   # Menu category
         return self.title
 
 
-def mmenuitem_pre_save_receiver(sender, instance, *args, **kwargs):
+def menuitem_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
-pre_save.connect(mmenuitem_pre_save_receiver, sender=MenuItem)
+pre_save.connect(menuitem_pre_save_receiver, sender=MenuItem)
