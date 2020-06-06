@@ -14,28 +14,28 @@
 -->
 
 {% block content %}
-    <div class="container">
-        <div class="row">
 
-            {% for obj in object_list %}
-                <div class="col">
+    <div class="row">
 
-                    {{ forloop.counter }}
+        {% for obj in object_list %}
+            <div class="col">
 
-                    {% include "menuitem/snippets/card.html" with instance=obj %}
+                {{ forloop.counter }}
 
-                    {% if forloop.counter|divisibleby:3 %}
-                        </div></div><div class="row"><div class="col-12"><hr/></div>
-                        {% else %}
+                {% include "menuitem/snippets/card.html" with instance=obj %}
+
+                {% if forloop.counter|divisibleby:3 %}
+                    </div></div><div class="row"><div class="col-12"><hr/></div>
+                 {% else %}
                     </div>
-                    {% endif %}
-                <!--
+                {% endif %}
+            <!--
         <a href="{{ obj.get_absolute_url }}"> {{ obj.title }} </a>
 -->
-                <br/>
+            <br/>
 
-            {% endfor %}
-    </div>
+        {% endfor %}
+
     </div>
 {% endblock content %}
 
