@@ -1,26 +1,31 @@
 {% extends "base.html" %}
 
-<!-- No longer needed
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
-
-
-</head>
-<body>
--->
 
 {% block content %}
 
+    <div class="row mb-3">
+        {% if query %}
+            <div class="col-12">
+                Searched for {{ query }}
+                <hr/>
+            </div>
+        {% else %}
+            <div class="col-12 col-md-8 mx-auto py-5">
+                {% include "search/snippets/search-form.html" %}
+
+            </div>
+            <div class="col-12">
+                <hr/>               <!-- Add horizontal line below search in its own column to max length -->
+            </div>
+        {% endif %}
+    </div>
+
+
     <div class="row">
+
 
         {% for obj in object_list %}
             <div class="col">
-
-                {{ forloop.counter }}
 
                 {% include "menuitem/snippets/card.html" with instance=obj %}
 
@@ -29,7 +34,7 @@
                  {% else %}
                     </div>
                 {% endif %}
-<!--
+            <!--
         <a href="{{ obj.get_absolute_url }}"> {{ obj.title }} </a>
 -->
             <br/>
@@ -38,9 +43,3 @@
 
     </div>
 {% endblock content %}
-
-<!-- No longer needed
-</body>
-</html>
-
--->

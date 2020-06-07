@@ -1,13 +1,15 @@
 import os
 import random
 
-from django.db import models
-from django.db.models.signals import pre_save
-from django.urls import reverse
-
 # Create your models here.
 
+from django.db import models
+from django.db.models import Q
+from django.db.models.signals import pre_save, post_save
+from django.urls import reverse
+
 from .utils import unique_slug_generator
+
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -33,6 +35,17 @@ class MenuItemQuerySet(models.query.QuerySet):
     def featured(self):
         return self.filter(featured=True, active=True)
 
+    def search(self, query):
+        lookups = (
+                   Q(title__icontains=query) |
+                   Q(description__contains=query) |
+                   Q(price__icontains=query) |
+                   Q(tag__title__icontains=query)
+                   )
+        return self.filter(lookups).distinct()
+
+
+
 class MenuItemManager(models.Manager):
     def get_queryset(self):
         return MenuItemQuerySet(self.model, using=self.db)
@@ -50,6 +63,10 @@ class MenuItemManager(models.Manager):
         return None
  #      return self.get_queryset().filter(id = id)  # MenuItem.object equivalent
 
+    def search(self, query):
+        # moved to custom above -> lookups = Q(title__icontains=query) | Q(description__contains=query)
+        # moved to custom above -> return self.get_queryset().active().filter(lookups).distinct()
+        return self.get_queryset().active().search(query)
 
 # generate slug before Menu Item is saved
 

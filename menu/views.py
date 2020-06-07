@@ -26,7 +26,6 @@ class MenuFeaturedDetailView(DetailView):
 
 
 
-
 class MenuListView(ListView):
     queryset = MenuItem.objects.all()
     template_name = "menuitem/list.html"

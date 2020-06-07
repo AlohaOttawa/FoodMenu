@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     # my apps
     'menu',
+    'search',
+    'tags',
 ]
 
 MIDDLEWARE = [
