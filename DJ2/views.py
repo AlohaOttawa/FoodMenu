@@ -8,6 +8,9 @@ def new_home_page(request):
     return HttpResponse("<h1>Hello World</h1>")
 
 def home_page(request):
+    print(request.session.get("first_name", "Unknown"))     # GEts the value from carts/templates/views
+    # request.session["first name"}
+
     context = {
         "title": "CRV19 - food comfort in the covid era!",
         "content":"Welcome to the Home Page"

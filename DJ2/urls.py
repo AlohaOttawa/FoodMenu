@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
+from carts.views import cart_home
 
 # from menu.views import (
 #     MenuListView,
@@ -42,6 +43,7 @@ urlpatterns = [
     path('about/', about_page, name='about'),
     path('contact/', contact_page, name='contact'),
     path('login/', login_page, name='login'),
+    path('cart/', cart_home, name='cart'),
     path('register/', register_page, name='register'),
     path('menuitems/', include(("menu.urls", 'menuitems'))),
     path('search/', include(("search.urls", 'search'))),
