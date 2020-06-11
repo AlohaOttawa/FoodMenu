@@ -1,9 +1,8 @@
 from django.db import models
-from django.db.models.signals import pre_save, post_save
-from django.urls import reverse
+from django.db.models.signals import pre_save
 
+from DJ2.utils import unique_slug_generator
 from menu.models import MenuItem
-from menu.utils import unique_slug_generator
 
 # Create your models here.
 
