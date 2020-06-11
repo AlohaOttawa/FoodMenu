@@ -4,83 +4,37 @@
 {% block content %}
 
     <!-- make the pictures smaller on the browser -->
-    <style>
-        .box {
-            width: 25%;
-            height: 25%;
-            border: 2px dashed #f7a239;
-        }
-        img {
-            width: 100%;
-            height: 100%;
-        }
+    <style> .box {width: 25%; height: 25%; border: 2px dashed #f7a239; }
+        img { width: 100%; height: 100%; }
     </style>
 
 
-        <div class="row">
-            <div class="col">
+    <div class="row">
+        <div class="col-12 col-md-6">
+                <h1> {{ object.title }} </h1>
+                {{ object.timestamp|date:"D d M Y P" }}
+        <br>Price $
+                {{ object.price }}
+                {{ object.description|linebreaks }}
 
-                <h1>
-                    {{ object.title }}
-                </h1>
-            {{ object.timestamp|date:"D d M Y P" }}
-
-
-                    {{ object.description|linebreaks }}
-
-
-                <div class="box">
+                <!-- <div class="box"> -->
                     {% if object.image %}
-                        <img src="{{ object.image.url }}" />
+                        <img src="{{ object.image.url }}" class="img-fluid" />
                     {% endif %}
-                </div>
-            </div>
+                <!--  </div> -->
         </div>
 
+        <div class="col-12 col-md-6">
+            <!-- <b>Cart ID: {{ cart }} </b> </br> don't display cart ID anymore -->
+            {% include "menuitem/snippets/update-cart.html" with menuitem=object cart=cart %}
+
+{#            {% if object in cart.menuitems.all %}#}
+{#            <button class="btn btn-link"> Remove this dish?</button>#}
+{#            {% else %}#}
+{#            <button class="btn btn-success"> Add to cart </button>#}
+{#            {% endif %}#}
+        </div>
+
+    </div>
 
 {% endblock content %}
-<!--
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
-    <style>
-      .box {
-        width: 25%;
-        height: 25%;
-        border: 2px dashed #f7a239;
-      }
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-
-</head>
-<body>
-
-<h1>
-    {{ object.title }}
-</h1>
-
-<h2>
-    {{ object.description }}
-</h2>
-
-    <div class="box">
-        {% if object.image %}
-            <img src="{{ object.image.url }}" />
-        {% endif %}
-    </div>
-<!--    {{ object.image.url }} -->
-
-
-<br/>
-
-</body>
-</html>
-
--->

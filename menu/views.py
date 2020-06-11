@@ -1,6 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.views.generic import ListView, DetailView
+
+from carts.models import Cart
+
+
 from .models import MenuItem
 
 # Create your views here.
@@ -52,6 +56,12 @@ def menu_list_view(request):  #same as class view above but more complex
 class MenuDetailSlugView(DetailView):
     queryset = MenuItem.objects.all()
     template_name = "menuitem/detail.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MenuDetailSlugView, self).get_context_data(*args, **kwargs)
+        cart_obj, new_obj = Cart.objects.new_or_get(self.request)
+        context["cart"] = cart_obj
+        return context
 
     def get_object(self, *args, **kwargs):
         request = self.request

@@ -4,4 +4,44 @@
 
     <h1>CRV19 Cart</h1>
 
+    {% if cart.menuitems.exists %}
+
+        # copied table structure from bootstrap, content, tables
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for menuitem in cart.menuitems.all %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href="{{ menuitem.get_absolute_url }}"> {{ menuitem.name }}</a>
+                {% include "menuitem/snippets/update-cart.html" with menuitem=menuitem cart=cart in_cart=True %}
+            </td>
+            <td>{{ menuitem.price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2"></td>
+            <td><b>Subtotal</b> {{ cart.subtotal }}</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td><b>Total</b> {{ cart.total }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <p class="lead">Cart is empty</p>
+
+    {% endif %}
+
+
 {% endblock content %}

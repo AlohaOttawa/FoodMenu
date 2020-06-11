@@ -95,6 +95,10 @@ class MenuItem(models.Model):   # Menu category
     def __str__(self):
         return self.title
 
+    @property
+    def name(self):
+        return self.title
+
 
 def menuitem_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
