@@ -20,20 +20,25 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
-# from carts.views import cart_home, cart_update
+from django.contrib.auth.views import LogoutView
 
-# from menu.views import (
-#     MenuListView,
-#     menu_list_view,
-#     MenuDetailView,
-#     MenuDetailSlugView,
-#     menu_detail_view,
-#     MenuFeaturedListView,
-#     MenuFeaturedDetailView
-#     )
+from accounts.views import login_page, register_page
+from .views import home_page, about_page, contact_page
+
+        # from carts.views import cart_home, cart_update
+
+        # from menu.views import (
+        #     MenuListView,
+        #     menu_list_view,
+        #     MenuDetailView,
+        #     MenuDetailSlugView,
+        #     menu_detail_view,
+        #     MenuFeaturedListView,
+        #     MenuFeaturedDetailView
+        #     )
 
 
-from .views import home_page, about_page, contact_page, login_page, register_page
+
 
 # app_name = 'menu'
 
@@ -43,6 +48,7 @@ urlpatterns = [
     path('about/', about_page, name='about'),
     path('contact/', contact_page, name='contact'),
     path('login/', login_page, name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('cart/', include(("carts.urls", 'cart'))),
         # path('cart/', cart_home, name='cart'),
         # path('cart/update', cart_update, name='update'),

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     # my apps
     'menu',
+    'billing',
+    'accounts',
     'orders',
     'search',
     'tags',
@@ -56,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGOUT_REDIRECT_URL = "/login"
 ROOT_URLCONF = 'DJ2.urls'
 
 TEMPLATES = [
