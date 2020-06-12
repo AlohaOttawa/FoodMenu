@@ -1,3 +1,4 @@
+import math
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 
@@ -30,8 +31,9 @@ class Order(models.Model):
     def update_total(self):
         cart_total = self.cart.total
         shipping_total = self.shipping_total
-        new_total = cart_total + shipping_total
-        self.total = new_total
+        new_total = math.fsum([cart_total, shipping_total])
+        display_format_total = format(new_total, ".2f")
+        self.total = display_format_total
         self.save()
         return new_total
 

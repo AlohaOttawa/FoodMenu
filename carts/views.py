@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from menu.models import MenuItem
+from orders.models import Order
 from .models import Cart
 
 # def cart_create(user=None):
@@ -46,40 +47,12 @@ def cart_update(request):
             # to remove is cart_obj.menuitems.remove(menuitem_obj)
     return redirect("cart:home")
 
-    # return redirect(menuitem_obj.get_absolute_url())  -> original test to see if it works
 
-
-    # request.session["cart_id"] = "12"
-            # cart_id = request.session.get("cart_id", None)
-            # qs = Cart.objects.filter(id=cart_id)
-            # if qs.count() == 1:
-            #     print("Cart ID exists")
-            #     cart_obj = qs.first()
-            #     if request.user.is_authenticated and cart_obj.user is None:
-            #         cart_obj.user = request.user
-            #         cart_obj.save()
-            # else:
-            #     cart_obj = Cart.objects.new(user=request.user)
-            #     request.session["cart_id"] = cart_obj.id
-
-
-    # print(dir(request.session))
-    # cart_id = request.session.get("cart_id", None)
-    # print(request.session['cart_id'])
-
-    #  if cart_id is None:   # and isinstance(cart_id, int)   user later
-    #     print("create new cart")
-    #    request.session['cart_id'] = 12  # Sets the value
-          # pass
-    #  else:
-    #    print("Cart ID exists")
-    #    print(cart_id)
-
-                # print(request.session)  # on the request
-                # print(dir(request.session))
-                # request.session.set_expiry(300)  # exctly 5 mins
-                # key = request.session.session_key
-                # print(key)
-
-                # request.session["user"] = request.user.username
-    # return render(request, "carts/home.html", {})
+def checkout_home(request):
+    cart_obj, cart_created = Cart.objects.new_or_get(request)
+    order_obj = None
+    if cart_created or cart_obj.menuitems.count() == 0:
+        return redirect("cart:home")
+    else:
+        order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
+    return render(request, "carts/checkout.html", {"object": order_obj})

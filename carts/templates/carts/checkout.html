@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Checkout</h1>
+    <br><br><hr>
+
+    <p>Cart Total: {{ object.cart.total }}</p>
+    <p>Shipping Total: {{ object.shipping_total }}</p>
+    <p><b>Total:  {{ object.total }}</b></p>
+    <p>Order ID:  {{ object.order_id }}</p>
+    <p>Cart Object: {{ object.cart }}  </p>
+
+
+
+
+
+{% endblock content %}
