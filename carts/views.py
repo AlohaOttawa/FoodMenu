@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from accounts.forms import LoginForm, GuestForm
 from accounts.models import GuestEmail
 from addresses.forms import AddressForm
+from addresses.models import Address
+
 from billing.models import BillingProfile
 from menu.models import MenuItem
 from orders.models import Order
@@ -62,52 +64,28 @@ def checkout_home(request):
     if cart_created or cart_obj.menuitems.count() == 0:
         return redirect("cart:home")
 
-            # user = request.user  ... not needed in the model view manager now
-            # billing_profile = None ... not needed managed in model view manager now
     login_form = LoginForm()
     guest_form = GuestForm()
-
     address_form = AddressForm()
-    # billing_address_form = AddressForm()
+
+    billing_address_id = request.session.get("billing_address_id", None)
+    shipping_address_id = request.session.get("shipping_address_id", None)
 
     # Call the model manager vs the moved function below it
     billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
 
-    # move the below to the Billing model manager
-            # guest_email_id = request.session.get("guest_email_id")
-            #
-            # if user.is_authenticated:
-            #     # This is a logged in user and recalls payment info
-            #     billing_profile, billing_profile_created = BillingProfile.objects.get_or_create(
-            #         user=user,
-            #         email=user.email
-            #     )
-            # elif guest_email_id is not None:
-            #     # This uses an email no user is logged in. auto reload payment info
-            #     guest_email_obj = GuestEmail.objects.get(id=guest_email_id)
-            #     billing_profile, billing_guest_profile_created = BillingProfile.objects.get_or_create(
-            #          email=guest_email_obj.email
-            #     )
-            # else:
-            #     pass
-
-
     if billing_profile is not None:
-
         order_obj, order_obj_created = Order.objects.new_or_get(billing_profile, cart_obj)
-
-
-                # order_qs = Order.objects.filter(billing_profile=billing_profile, cart=cart_obj, active=True)
-                # if order_qs.count() == 1:
-                #     order_obj = order_qs.first()
-                # else:
-                #         # move this code to the orders.model pre_save create_order_id
-                #         # deactivate all old orders with the same cart
-                #         # old_order_qs = Order.objects.exclude(billing_profile=billing_profile).filter(cart=cart_obj, active=True)
-                #         # if old_order_qs.exists():
-                #         #     old_order_qs.update(active=False)
-                #     order_obj = Order.objects.create(billing_profile=billing_profile, cart=cart_obj)
-
+        print("Does billing address id exists? ")
+        print(billing_address_id)
+        if shipping_address_id:
+            order_obj.shipping_address = Address.objects.get(id=shipping_address_id)
+            del request.session["shipping_address_id"]
+        if billing_address_id:
+            order_obj.billing_address = Address.objects.get(id=billing_address_id)
+            del request.session["billing_address_id"]
+        if billing_address_id or shipping_address_id:
+            order_obj.save()
 
 
     context = {
@@ -115,7 +93,7 @@ def checkout_home(request):
         "billing_profile": billing_profile,
         "login_form": login_form,
         "guest_form": guest_form,
-        "address_form": address_form
+        "address_form": address_form,
         # "billing_address_form": billing_address_form
     }
 
