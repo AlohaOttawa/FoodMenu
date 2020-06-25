@@ -1,31 +1,62 @@
 {% load static %}
 
 <!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>CRV19 - Home Food Love</title>
+        <title>CRV19 - Home Food Love</title>
 
-    {% include "base/css.html" %}
-    {% block base_head %} {% endblock base_head %}
+        {% include "base/css.html" %}
+        {% block base_head %} {% endblock base_head %}
 
 
-</head>
-<body>
-{% include "base/navbar.html" with brand_name="Hal's CRV19 Foods" %}
+    </head>
 
-<div class="container">
+    <body>
+        {% include "base/navbar.html" with brand_name="Hal's CRV19 Foods" %}
 
-    {% block content %}
+        <div class="container">
 
-    {% endblock content %}
+            {% block content %}
 
-</div>
+            {% endblock content %}
 
-{% include "base/js.html" %}
+        </div>
 
-</body>
+        {% include "base/js.html" %}
+
+        <script>
+            $(document).ready(function(){
+                var menuitemForm = $(".form-menuitem-ajax")    // if html id then us #form-menuitem-ajax
+
+                menuitemForm.submit(function(event){
+                    event.preventDefault();
+                    console.log("Form is not sending")
+                    var thisForm = $(this)
+                    var actionEndpoint = thisForm.attr("action");
+                    var httpMethod = thisForm.attr("method");
+                    var formData = thisForm.serialize();    // data into backend package format
+
+                    $.ajax({
+                        url: actionEndpoint,
+                        method: httpMethod,
+                        data: formData,
+                        success: function (data) {
+                            console.log("Success.  Data is: ")
+                            console.log(data)
+                        },
+                        error: function(errorData){
+                            console.log("Error encountered.  Code is")
+                            console.log(errorData)
+                        }
+                    })
+
+                })
+            })
+        </script>
+
+    </body>
 </html>
