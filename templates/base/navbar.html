@@ -47,7 +47,7 @@
             {% endif %}
 
             <li class="nav-item {% if request.path == cart_url %}active{% endif %}">
-                <a class="nav-link " href="{% url 'cart:home' %}">{{ request.session.cart_item_count }} <i class="fa fa-shopping-cart" aria-hidden="true"></i> </a>
+                <a class="nav-link " href="{% url 'cart:home' %}"><span class="navbar-cart-count">{{ request.session.cart_item_count }}</span> <i class="fa fa-shopping-cart" aria-hidden="true"></i> </a>
             </li>
 
 {#            <li class="nav-item dropdown">#}

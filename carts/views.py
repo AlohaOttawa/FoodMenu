@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from accounts.forms import LoginForm, GuestForm
@@ -20,15 +21,6 @@ from .models import Cart
 
 def cart_home(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)
-            # receiver and signals in the model class is managing the below
-            # menuitems = cart_obj.menuitems.all()
-            # total = 0
-            # for item in menuitems:
-            #     total += item.price
-            #     # print(total)
-            #     # print("in cart home")
-            # cart_obj.total = total
-            # cart_obj.save()
     return render(request, "carts/home.html", {"cart": cart_obj})
 
 def cart_update(request):
@@ -45,13 +37,22 @@ def cart_update(request):
 
         if menuitem_obj in cart_obj.menuitems.all():
             cart_obj.menuitems.remove(menuitem_obj)
+            added = False
         else:
             cart_obj.menuitems.add(menuitem_obj)
+            added = True
 
         request.session["cart_item_count"] = cart_obj.menuitems.count()
 
-             #cart_obj.menuitems.add(item_Id)
-            # to remove is cart_obj.menuitems.remove(menuitem_obj)
+        # async javascript and JSON
+        if request.is_ajax():
+            print("Ajax request")
+            json_data = {
+                "added": added,
+                "removed": not added,
+                "cartItemCount": cart_obj.menuitems.count(),
+            }
+            return JsonResponse(json_data)
     return redirect("cart:home")
 
 
