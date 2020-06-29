@@ -24,6 +24,7 @@ from django.contrib.auth.views import LogoutView
 
 from accounts.views import login_page, register_page, guest_register_view
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
+from carts.views import cart_detail_api_view
 from .views import home_page, about_page, contact_page
 
         # from carts.views import cart_home, cart_update
@@ -53,6 +54,7 @@ urlpatterns = [
     path('checkout/address/reuse/', checkout_address_reuse_view, name='checkout_address_reuse'),
     path('register/guest', guest_register_view, name='guest_register'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('api/cart/', cart_detail_api_view, name='api-cart'),
     path('cart/', include(("carts.urls", 'cart'))),
         # path('cart/', cart_home, name='cart'),
         # path('cart/update', cart_update, name='update'),

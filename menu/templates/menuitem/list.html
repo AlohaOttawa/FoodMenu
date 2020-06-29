@@ -20,7 +20,9 @@
         {% for obj in object_list %}
             <div class="col">
 
+                <div id="hideCount" hidden>
                 {{ forloop.counter }}
+                </div>
 
                 {% include "menuitem/snippets/card.html" with instance=obj %}
 

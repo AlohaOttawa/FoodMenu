@@ -36,7 +36,8 @@
                     event.preventDefault();
                     console.log("Form is not sending")
                     var thisForm = $(this)
-                    var actionEndpoint = thisForm.attr("action");
+                    // var actionEndpoint = thisForm.attr("action");   // API endpoint
+                    var actionEndpoint = thisForm.attr("data-endpoint")
                     var httpMethod = thisForm.attr("method");
                     var formData = thisForm.serialize();    // data into backend package format
 
@@ -46,13 +47,18 @@
                         data: formData,
                         success: function (data) {
                             var submitSpan = thisForm.find(".submit-span")
-                            if{data.added}{
+                            if(data.added){
                                 submitSpan.html("In cart <button type=\"submit\" class=\"btn btn-link\"> Remove this dish?</button>")
                             } else {
                                 submitSpan.html(" <button type=\"submit\" class=\"btn btn-success\"> Add to cart </button>")
                                 }
                             var navbarCount = $(".navbar-cart-count")
                             navbarCount.text(data.cartItemCount)
+
+                            var currentPath = window.location.href
+                            if (currentPath.indexOf("cart") != -1){
+                                refreshCart()
+                            }
                         },
                         error: function(errorData){
                             console.log("Error encountered.  Code is")
@@ -61,6 +67,48 @@
                     })
 
                 })
+
+                function refreshCart(){
+                    console.log("In current cart")
+                    var cartTable = $(".cart-table")
+                    var cartBody = cartTable.find(".cart-body")
+                    //cartBody.html("<h1>Its Changed</h1>")
+                    var menuitemRows = cartBody.find(".cart-menuitem")
+                    var currentURL = window.location.href
+
+                    var refreshCartURL = "/api/cart/";
+                    var refreshCartMethod = "GET";
+                    var data = {};
+                    $.ajax({
+                        url: refreshCartURL,
+                        method: refreshCartMethod,
+                        data: data,
+                        success: function(data){
+                            console.log("Success refresh")
+                            console.log(data)
+                            if (data.menuitems.length > 0) {
+                                 menuitemRows.html("")
+                                counter = 1
+                                $.each(data.menuitems, function(index, value){
+                                    console.log(value)
+                                    cartBody.prepend("<tr><th scope=\"row\">" + counter + "</th><td>" +
+                                        value.name + "</td><td>" + value.price + "</td></tr>")
+                                    counter ++
+                                })
+
+                                 cartBody.find(".cart-subtotal").text(data.subtotal)
+                                 cartBody.find(".cart-total").text(data.total)
+                            } else{
+                                window.location.href = currentURL
+                            }
+
+                        },
+                        error: function(errorData){
+                            console.log("Refresh failure")
+                            console.log(errorData)
+                        }
+                    })
+                }
             })
         </script>
 

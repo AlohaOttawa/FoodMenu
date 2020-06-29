@@ -11,13 +11,18 @@ from menu.models import MenuItem
 from orders.models import Order
 from .models import Cart
 
-# def cart_create(user=None):
-#      cart_obj    =   Cart.objects.create(user=None)
-#      print("New cart created")
-#      return cart_obj
 
-
-
+def cart_detail_api_view(request):
+    cart_obj, new_obj = Cart.objects.new_or_get(request)
+    # menuitems = cart_obj.menuitems.all()  # queryset / list of items [<object>, <object>]
+    menuitems = [{"name": x.name, "price": x.price} for x in cart_obj.menuitems.all()] # serialize the data
+            # menu_list = []
+            # for x in cart_obj.menuitems.all():
+            #    menu_list.append (
+            #       {"name": x.name, "price": x.price}
+            #       }
+    cart_data = {"menuitems":menuitems, "subtotal":cart_obj.subtotal, "total":cart_obj.total}
+    return JsonResponse(cart_data)
 
 def cart_home(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)

@@ -8,7 +8,7 @@
 
         # copied table structure from bootstrap, content, tables
 
-    <table class="table">
+    <table class="table cart-table">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -16,23 +16,25 @@
             <th scope="col">Price</th>
         </tr>
         </thead>
-        <tbody>
-        {% for menuitem in cart.menuitems.all %}
-        <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td><a href="{{ menuitem.get_absolute_url }}"> {{ menuitem.name }}</a>
-                {% include "menuitem/snippets/update-cart.html" with menuitem=menuitem cart=cart in_cart=True %}
-            </td>
-            <td>{{ menuitem.price }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="2"></td>
-            <td><b>Subtotal</b> {{ cart.subtotal }}</td>
-        </tr>
+        <tbody class="cart-body">
+
+            {% for menuitem in cart.menuitems.all %}
+            <tr class="cart-menuitem">
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="{{ menuitem.get_absolute_url }}"> {{ menuitem.name }}</a>
+                    {% include "menuitem/snippets/update-cart.html" with menuitem=menuitem cart=cart in_cart=True %}
+                </td>
+                <td>{{ menuitem.price }}</td>
+            </tr>
+            {% endfor %}
+
         <tr>
             <td colspan="2"></td>
-            <td><b>Total</b> {{ cart.total }}</td>
+            <td><b>Subtotal</b> $<span class="cart-subtotal"> {{ cart.subtotal }}</span></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td><b>Total</b> $<span class="cart-subtotal"> {{ cart.total }}</span></td>
         </tr>
                 <tr>
             <td colspan="2"></td>
