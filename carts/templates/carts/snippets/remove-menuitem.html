@@ -1,0 +1,8 @@
+<form class="form-menuitem-ajax" method="POST" action="{% url "cart:update" %}" data-endpoint = "{% url "cart:update" %}" class="form"> {% csrf_token %}
+
+    <input class="cart-menuitem-id" type="hidden" name="menuitem_id" value="{{ menuitem_id }}" />
+    <button type="submit" class="btn btn-link btn-sm" style="padding:0px;cursor: pointer;"> Remove this dish?</button>
+
+    </span>
+
+</form>

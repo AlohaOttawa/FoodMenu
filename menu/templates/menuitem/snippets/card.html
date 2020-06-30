@@ -10,6 +10,7 @@
         <h5 class="card-title">{{ instance.title }}</h5>
         <p class="card-text">{{ instance.description|truncatewords:15}}</p>
         <a href="{{ instance.get_absolute_url }}" class="button">View</a>
+            {% include "menuitem/snippets/update-cart.html" with menuitem=instance cart=cart %}
         <!-- <a href="{% url 'menuitems:details' slug=instance.slug %}" class="button">URL shortcuts</a> -->
     </div>
 </div>
