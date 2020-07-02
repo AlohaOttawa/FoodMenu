@@ -28,8 +28,43 @@
 
         {% include "base/js.html" %}
 
+        <!-- JQuery starts here -->
+
         <script>
             $(document).ready(function(){
+                // Auto search
+                var searchForm =$(".search-form")
+                var searchInput = searchForm.find("[name='q']")     // find the input name='q'
+                var typingTimer;
+                var typingInterval = 500   // 1 second
+                var searchBTN = searchForm.find("[type='submit']")
+
+                searchInput.keyup(function(event){
+                    // key released
+                    clearTimeout(typingTimer)
+                    typingTimer = setTimeout(performSearch, typingInterval)
+                })
+
+                searchInput.keydown(function(event){
+                    // key pressed down
+                    clearTimeout(typingTimer)
+                })
+
+                function displaySearching(){
+                   searchBTN.addClass("disabled")
+                   searchBTN.html("<i class='fa fa-spin fa-spinner'></i> Searching ...")
+                }
+
+                function performSearch(){
+                    displaySearching()
+                    var query = searchInput.val()
+                    setTimeout(function(){
+                        window.location.href = "/search/?q=" + query
+                    }, 1000)
+                }
+
+                // Cart + add Menuitems
+
                 var menuitemForm = $(".form-menuitem-ajax")    // if html id then us #form-menuitem-ajax
 
                 menuitemForm.submit(function(event){
