@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from .forms import ContactForm, LoginForm, RegisterForm
@@ -37,13 +37,20 @@ def contact_page(request):
 
     if contact_form.is_valid():
         print(contact_form.cleaned_data)
-    # if request.method == "POST":
-    #     print(request.POST)
-    #     print(request.POST.get("fullname"))
-    #     print(request.POST.get("email"))
-    #     print(request.POST.get("content"))
-    #     print(request.POST.get("csrfmiddlewaretoken"))
+        # as contact is a form, ajax in base.html is sending back data, so need to manage in the view
+        if request.is_ajax():
+            return JsonResponse({"message":"Thank you.  Contact info submitted"})
+
+    if contact_form.errors:
+        # equivalent to above but converting to JSON in advance so hence HTTP and content type to notify
+        print(contact_form.cleaned_data)
+        errors = contact_form.errors.as_json()
+        if request.is_ajax():
+            return HttpResponse(errors, status=400, content_type="application/json")
+
     return render(request, "contact/view.html", context)
+
+
 
 # Login and Register page moved to /accounts no longer under main ref unit 80
 
