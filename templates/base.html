@@ -96,8 +96,11 @@
                             }
                         },
                         error: function(errorData){
-                            console.log("Error encountered.  Code is")
-                            console.log(errorData)
+                            $.alert({
+                                 title: 'Alert!',
+                                 content: 'Something is wrong!',
+                                 theme: "dark",
+                                });
                         }
                     })
 
@@ -141,8 +144,11 @@
 
                         },
                         error: function(errorData){
-                            console.log("Refresh failure")
-                            console.log(errorData)
+                            $.alert({
+                                title: 'Alert!',
+                                content: 'Refresh error!',
+                                theme: "dark",
+                            });
                         }
                     })
                 }

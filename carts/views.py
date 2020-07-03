@@ -59,7 +59,8 @@ def cart_update(request):
                 "removed": not added,
                 "cartItemCount": cart_obj.menuitems.count(),
             }
-            return JsonResponse(json_data)
+            return JsonResponse(json_data, status=200)  # HTTP Response 400 is error
+            # return JsonResponse({"message": "Error something happened"}, status=400)
     return redirect("cart:home")
 
 
