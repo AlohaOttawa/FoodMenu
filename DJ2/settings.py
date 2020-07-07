@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'carts',
 ]
 
+AUTH_USER_MODEL = "accounts.User"   # changes built-in Django user model to menuitem
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

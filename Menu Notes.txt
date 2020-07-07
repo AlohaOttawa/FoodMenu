@@ -19,3 +19,15 @@ Checkout Process
 	- Shipping and Billing address
 	- Cart
 	- Status -- has it shipped or been cancelled?  Etc.
+
+
+4.  Backing up data using Fixtures!
+everything: py manage.py dumpdata --format json --indent 4 > crv19.json
+only menuitems:  py manage.py dumpdata menu --format json --indent 4 > crv19.json
+
+ a - backup data (step 4).  Now change the sqlite db to db2 or whatever.  Django will create a new one in migration
+ b - remove all previous migrations in accounts/migrations (except ini.py).  Archive the cache as well - only ini.py
+ c - manage.py makemigrations (should only do the accounts / first - check migration to see if account setup right
+ d - manage.py migrate - rest of the migratinos for the other apps / models
+ e - python manage.py loaddata menu/fixtures/menu.json      "Load the menu data"
+ f - python manage.py createsuperuser crv19@gmail.com <normal pwd>

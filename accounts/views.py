@@ -70,10 +70,12 @@ def register_page(request):
         "form": form
     }
     if form.is_valid():
-        print(form.cleaned_data)
-        username = form.cleaned_data.get("username")
-        password = form.cleaned_data.get("password")
-        email = form.cleaned_data.get("email")
-        new_user = User.objects.create_user(username, email, password)
-        print(new_user)
+        form.save()
+                # -- No longer needed.  Using Custom model manager in accounts.  Added form.save() above instead
+                # print(form.cleaned_data)
+                # username = form.cleaned_data.get("username")
+                # password = form.cleaned_data.get("password")
+                # email = form.cleaned_data.get("email")
+                # new_user = User.objects.create_user(username, email, password)
+                # print(new_user)
     return render(request, "accounts/register.html", context)

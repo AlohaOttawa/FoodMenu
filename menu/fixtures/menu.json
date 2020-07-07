@@ -1,0 +1,226 @@
+[
+{
+    "model": "menu.menuitem",
+    "pk": 1,
+    "fields": {
+        "title": "Canh Chua",
+        "slug": "canhchua",
+        "description": "Soup",
+        "price": "5.99",
+        "image": "menuitems/17276782/17276782.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T13:59:39.438Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 2,
+    "fields": {
+        "title": "Pho - Chicken",
+        "slug": "phochicken",
+        "description": "Chicken Pho",
+        "price": "12.99",
+        "image": "menuitems/23669931/23669931.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T13:59:39.438Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 3,
+    "fields": {
+        "title": "Som Tom salad",
+        "slug": "somtom",
+        "description": "Spicy salad dish",
+        "price": "28.50",
+        "image": "menuitems/9250079/9250079.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T13:59:39.438Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 4,
+    "fields": {
+        "title": "Dolma",
+        "slug": "dolma",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mauris magna, faucibus sed vulputate eget, imperdiet sed mauris. Curabitur eu viverra nisl. Aenean quis tortor non sem vulputate malesuada quis et urna. Etiam pulvinar lorem ut auctor semper. Curabitur ac metus a nunc efficitur eleifend. Donec volutpat sodales turpis, sed congue dui suscipit sit amet. Nunc iaculis nunc velit, quis facilisis mauris hendrerit id. Donec tempor ipsum id ullamcorper pharetra. Sed quis justo quis leo viverra eleifend condimentum quis quam. Pellentesque in dui sed augue imperdiet ultricies. Suspendisse mi felis, fringilla id vehicula vel, mattis vel sapien.\r\n\r\nVivamus vel neque metus. Vestibulum et tincidunt velit, sed vulputate libero. Proin in iaculis leo. In ligula erat, fermentum vitae massa id, efficitur scelerisque nisl. Aenean in nulla in urna mattis sodales. Phasellus a mi felis. Nulla consectetur nisi diam, id aliquam ligula accumsan sed. Quisque egestas ut sem ut accumsan. Mauris eleifend, massa sed elementum feugiat, ligula felis dignissim elit, sed egestas mi mauris id urna. Donec ac ante ut elit auctor efficitur scelerisque vel justo. Quisque rhoncus eget nibh rhoncus placerat.\r\n\r\nInteger eget eros quis justo pretium suscipit id a nisl. Etiam mauris mi, mattis hendrerit mi quis, dapibus bibendum turpis. Maecenas quis velit laoreet, interdum lectus a, finibus turpis. Quisque eu interdum massa. Vestibulum felis sem, pretium nec vehicula ac, vulputate non dolor. Duis aliquet metus libero, vitae rutrum urna sodales sit amet. Fusce cursus quam eget massa laoreet consectetur. Morbi tempus magna nec sapien varius dapibus. Integer at turpis nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus.\r\n\r\nNulla vulputate lorem in ligula sollicitudin, at blandit mauris euismod. Etiam vel convallis erat. Integer non dignissim est, sed convallis odio. Duis posuere fringilla risus, sed efficitur risus sodales nec. Quisque hendrerit ipsum vitae nisi vulputate pulvinar. Nam non eleifend dolor, quis ullamcorper tortor. Sed sit amet elit vitae felis faucibus tincidunt sed viverra odio. Aliquam non tellus hendrerit, aliquam enim ut, pretium ligula. Nulla in gravida libero. Vestibulum facilisis lacus in eleifend rutrum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.\r\n\r\nMorbi imperdiet rutrum aliquam. Praesent viverra aliquam efficitur. Morbi ut elementum est. Proin dictum urna non neque pellentesque scelerisque. Fusce non lorem quis diam laoreet auctor non a erat. Quisque a gravida sem. Ut massa magna, lobortis non facilisis sed, sodales ut lacus. Pellentesque aliquam dignissim sollicitudin. Quisque tellus nisl, tristique sit amet maximus quis, dignissim at tellus. Sed arcu libero, fermentum sit amet elit ut, eleifend scelerisque turpis. Pellentesque eu nunc nunc. Nullam augue quam, molestie sed sodales vel, tincidunt non arcu. Quisque eget viverra massa.",
+        "price": "12.99",
+        "image": "menuitems/1535378/1535378.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T13:59:39.438Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 5,
+    "fields": {
+        "title": "OssoBuco",
+        "slug": "osso",
+        "description": "Great dish to try.  Exotic",
+        "price": "24.99",
+        "image": "menuitems/3008909/3008909.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T14:34:47.231Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 6,
+    "fields": {
+        "title": "banana",
+        "slug": "abc",
+        "description": "Fabulous dessert.  Classic treat.",
+        "price": "6.00",
+        "image": "menuitems/100146/100146.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T14:35:28.912Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 7,
+    "fields": {
+        "title": "Ribs",
+        "slug": "ribs",
+        "description": "Traditional dish infused with robust flavours",
+        "price": "18.99",
+        "image": "menuitems/4795995/4795995.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T14:36:27.412Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 8,
+    "fields": {
+        "title": "noodle",
+        "slug": "noodle",
+        "description": "Fried noodles filled with meats and vegetables.  It is a great comfort dish to share with family and friends.",
+        "price": "12.99",
+        "image": "",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T14:37:22.063Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 9,
+    "fields": {
+        "title": "nachos",
+        "slug": "nachos",
+        "description": "Nachos are a favorite dish for after evening affairs.  Great to enjoy with groups of friends.",
+        "price": "15.00",
+        "image": "menuitems/3080439/3080439.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T14:41:29.775Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 10,
+    "fields": {
+        "title": "korean",
+        "slug": "korean",
+        "description": "Korean short raised ribs.  This is a super powerful experience that excites the senses and invokes the exotic.",
+        "price": "22.99",
+        "image": "menuitems/24936965/24936965.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-05T14:43:09.360Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 11,
+    "fields": {
+        "title": "haupia",
+        "slug": "haupia",
+        "description": "Classic Hawaiian dish made with coconut and other natural ingredients.",
+        "price": "5.99",
+        "image": "menuitems/9373386/9373386.JPG",
+        "featured": true,
+        "active": true,
+        "timestamp": "2020-06-06T20:14:48.798Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 12,
+    "fields": {
+        "title": "Salad - option 1",
+        "slug": "salad-option-1",
+        "description": "Salad in a nice setting",
+        "price": "5.99",
+        "image": "menuitems/20210097/20210097.JPG",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-06T20:15:59.127Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 13,
+    "fields": {
+        "title": "Salad - option 2",
+        "slug": "salad-option-2",
+        "description": "Designer salad with fancy additions",
+        "price": "15.50",
+        "image": "menuitems/8172551/8172551.JPG",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-06T20:16:26.509Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 14,
+    "fields": {
+        "title": "Jambon starter",
+        "slug": "jambon-starter",
+        "description": "A classic starter with prosciutto ham.  Very tasty.",
+        "price": "7.49",
+        "image": "menuitems/8793664/8793664.JPG",
+        "featured": true,
+        "active": true,
+        "timestamp": "2020-06-06T20:17:23.948Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 15,
+    "fields": {
+        "title": "Spring Rolls",
+        "slug": "spring-rolls",
+        "description": "Vietnamese style spring rolls.  Made with lots of fresh crab (chunked meat) and fresh herbs and vegetables.  Made for sharing.",
+        "price": "16.50",
+        "image": "menuitems/5530739/5530739.JPG",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-06T20:18:28.934Z"
+    }
+},
+{
+    "model": "menu.menuitem",
+    "pk": 16,
+    "fields": {
+        "title": "Lobster",
+        "slug": "lobster",
+        "description": "Lobster made with gourmet level enhancements.   Flavour profile is professional and requires wine and other white tablecloth attention.",
+        "price": "35.00",
+        "image": "menuitems/21871793/21871793.JPG",
+        "featured": false,
+        "active": true,
+        "timestamp": "2020-06-06T20:19:20.719Z"
+    }
+}
+]
