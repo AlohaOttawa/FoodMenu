@@ -22,7 +22,7 @@ from django.urls import path, re_path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
 
-from accounts.views import login_page, register_page, guest_register_view
+from accounts.views import LoginView, RegisterView, guest_register_view
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 from carts.views import cart_detail_api_view
 from .views import home_page, about_page, contact_page
@@ -49,7 +49,7 @@ urlpatterns = [
     path('', home_page, name='home'),
     path('about/', about_page, name='about'),
     path('contact/', contact_page, name='contact'),
-    path('login/', login_page, name='login'),
+    path('login/', LoginView.as_view(), name='login'),
     path('checkout/address/create/', checkout_address_create_view, name='checkout_address_create'),
     path('checkout/address/reuse/', checkout_address_reuse_view, name='checkout_address_reuse'),
     path('register/guest', guest_register_view, name='guest_register'),
@@ -58,7 +58,7 @@ urlpatterns = [
     path('cart/', include(("carts.urls", 'cart'))),
         # path('cart/', cart_home, name='cart'),
         # path('cart/update', cart_update, name='update'),
-    path('register/', register_page, name='register'),
+    path('register/', RegisterView.as_view(), name='register'),
     path('menuitems/', include(("menu.urls", 'menuitems'))),
     path('search/', include(("search.urls", 'search'))),
     # path('menuitems/', MenuListView.as_view()),
