@@ -4,6 +4,10 @@ from django.views.generic import ListView, DetailView
 
 from carts.models import Cart
 
+# from analytics.signals import object_viewed_signal
+
+from analytics.mixins import ObjectViewedMixin
+
 
 from .models import MenuItem
 
@@ -18,7 +22,7 @@ class MenuFeaturedListView(ListView):
 
 
 
-class MenuFeaturedDetailView(DetailView):
+class MenuFeaturedDetailView(ObjectViewedMixin, DetailView):
     queryset = MenuItem.objects.features()
     template_name = "menuitem/featured-detail.html"
 
@@ -59,7 +63,7 @@ def menu_list_view(request):  #same as class view above but more complex
 
 
 
-class MenuDetailSlugView(DetailView):
+class MenuDetailSlugView(ObjectViewedMixin, DetailView):
     queryset = MenuItem.objects.all()
     template_name = "menuitem/detail.html"
 
@@ -84,10 +88,17 @@ class MenuDetailSlugView(DetailView):
             instance = qs.first()
         except:
             raise Http404("some other error")
+
+        # analytics.py.  Send the class when sending the signal
+        # sender of the view as class, instance, and request
+        # function based views need to do this for every function
+        # but mixins allow to bypass using a class definition only once
+        # object_viewed_signal.send(instance.__class__, instance=instance, request=request )
+
         return instance
 
 
-class MenuDetailView(DetailView):
+class MenuDetailView(ObjectViewedMixin, DetailView):
     # queryset = MenuItem.objects.all()
     template_name = "menuitem/detail.html"
 

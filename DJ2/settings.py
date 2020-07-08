@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # my apps
     'menu',
     'addresses',
+    "analytics",
     'billing',
     'accounts',
     'orders',
@@ -50,6 +51,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = "accounts.User"   # changes built-in Django user model to menuitem
+
+FORCE_SESSION_TO_ONE = False
+FORCE_INACTIVE_USER_ENDSESSION = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
