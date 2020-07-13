@@ -1,10 +1,14 @@
 from django.db import models
 from django.conf import settings
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 from accounts.models import GuestEmail
+
 # bring in the user
 User = settings.AUTH_USER_MODEL
+
+import stripe
+stripe.api_key = "sk_test_C8dhHUK0Q9ByFzNOuQ10QHyi00tS0LViDj"
 
 # an email account like something@gmail.com can have a million profiles
 # but the user should have only 1 profile so active will be used to deactivate
@@ -39,12 +43,13 @@ class BillingProfileManager(models.Manager):
             return obj, created
 
 class BillingProfile(models.Model):
-    user        = models.OneToOneField(User, null=True, blank=True, on_delete=models.SET_NULL)
-    email       = models.EmailField()
-    active      = models.BooleanField(default=True)
-    update      = models.DateTimeField(auto_now=True)
-    timestamp   = models.DateTimeField(auto_now_add=True)
-    # tbd Customer_ID in Stripe or some other 3rd party payment processor
+    user            = models.OneToOneField(User, null=True, blank=True, on_delete=models.SET_NULL)
+    email           = models.EmailField()
+    active          = models.BooleanField(default=True)
+    update          = models.DateTimeField(auto_now=True)
+    timestamp       = models.DateTimeField(auto_now_add=True)
+    stripe_cust_id  = models.CharField(max_length=120, null=True, blank=True)
+        # Stripe Customer_ID in Stripe or some other 3rd party payment processor
 
     # bring the new functions above to be referenceable for the class
     objects = BillingProfileManager()
@@ -52,11 +57,18 @@ class BillingProfile(models.Model):
     def __str__(self):
         return self.email
 
-# def billing_profile_created_receiver(sender, instance, created, *args, **kwargs):
-#     if created:
-#         print("ACTUAL API REQUEST Send to Stripe or some other payment processor")
-#         instance.customer_id = newID
-#         instance.save()
+def billing_profile_created_receiver(sender, instance, *args, **kwargs):
+    if not instance.stripe_cust_id and instance.email:
+        print("ACTUAL API REQUEST Send to Stripe or some other payment processor")
+        # call Stripe API to return Stripe customer id based on CRV19 email
+        customer = stripe.Customer.create(
+            email = instance.email
+        )
+        print(customer)
+        # customer.id or customer.stripe_id ??
+        instance.stripe_cust_id = customer.id
+
+pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
 
 
 # when user is Created, use the signal below to create the billing profile automatically
