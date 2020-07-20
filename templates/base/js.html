@@ -10,12 +10,19 @@
 <!-- JQuery confirm used for Ajax error display handling -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
+<!-- JS Render for templating control -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.7/jsrender.min.js"></script>
+{% include "base/js_render_templates.html" %}
 
 <!-- load Django secure Ajax for Amazon S3 or anything like this to no longer need CSRF token -->
 <script src="{% static 'js/csrf.ajax.js' %}"> </script>
 
-<!-- load CRV 19 Menu Items JQuery file -->
+<!-- load CRV 19 Menu Items custom JQuery file -->
 <script src="{% static 'js/crv19.js' %}"> </script>
+
+<!-- load CRV 19 Menu Items custom - main JS file -->
+<script src="{% static 'js/crv19_main.js' %}"> </script>
 
 <!-- Stripe API -->
 <script src="https://js.stripe.com/v3/"></script>
+
