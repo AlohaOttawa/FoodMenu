@@ -7,6 +7,7 @@ from accounts.models import GuestEmail
 # bring in the user
 User = settings.AUTH_USER_MODEL
 
+# `source` is obtained with Stripe.js; see https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token
 import stripe
 stripe.api_key = "sk_test_C8dhHUK0Q9ByFzNOuQ10QHyi00tS0LViDj"
 
@@ -57,6 +58,9 @@ class BillingProfile(models.Model):
     def __str__(self):
         return self.email
 
+    def charge(self, order_obj, card=None):
+        return Charge.objects.do_charge(self, order_obj, card)
+
 def billing_profile_created_receiver(sender, instance, *args, **kwargs):
     if not instance.stripe_cust_id and instance.email:
         print("ACTUAL API REQUEST Send to Stripe or some other payment processor")
@@ -78,8 +82,95 @@ def user_created_receiver(sender, instance, created, *args, **kwargs):
 
 post_save.connect(user_created_receiver, sender=User)
 
-# class Card(models.Model):
-#    pass
+class CardManager(models.Manager):
+    # def add_new(self, billing_profile, stripe_card_response):
+     def add_new(self, billing_profile, token):
+            # use the if-token to handle in the class.  Previous was managed via view args
+            # if str(stripe_card_response.object) == "card":
+        if token:
+            stripe_card_response = stripe.Customer.create_source(
+                billing_profile.stripe_cust_id,
+                source=token,
+            )
+            new_card = self.model(
+                billing_profile=billing_profile,
+                stripe_cust_id=stripe_card_response.id,
+                brand=stripe_card_response.brand,
+                country=stripe_card_response.country,
+                exp_month=stripe_card_response.exp_month,
+                exp_year=stripe_card_response.exp_year,
+                last4=stripe_card_response.last4
+            )
+            new_card.save()
+            return new_card
+        return None
+
+class Card(models.Model):
+    billing_profile     = models.ForeignKey(BillingProfile, on_delete=models.CASCADE)
+    stripe_cust_id      = models.CharField(max_length=120, null=True, blank=True)
+    brand               = models.CharField(max_length=120, null=True, blank=True)
+    country             = models.CharField(max_length=120, null=True, blank=True)
+    exp_month           = models.IntegerField(null=True, blank=True)
+    exp_year            = models.IntegerField(null=True, blank=True)
+    last4               = models.CharField(max_length=4, null=True, blank=True)
+    default             = models.BooleanField(default=True)
+
+    objects = CardManager()
+
+    def __str__(self):
+        return "{} {}".format(self.brand, self.last4)
+
+
+# `source` is obtained with Stripe.js; see https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token
+# stripe.Charge.create(
+#   amount=2000,
+#   currency="cad",
+#   source="tok_visa",
+#   description="My First Test Charge (created for API docs)",
+# )
+
+
+class ChargeManager(models.Manager):
+    def do_charge(self, billing_profile, order_obj, card=None):    # Charge.objects.do_charge()
+        card_obj = card
+        if card_obj is None:
+            cards = billing_profile.card_set.filter(default=True)
+            if cards.exists():
+                card_obj = cards.first()
+        if card_obj is None:
+            return False, "No cards available"
+
+        created_charge = stripe.Charge.create(
+            amount      = int(order_obj.total * 100),    # need to multiply to remove decimal places on stripe side
+            currency    = "usd",
+            customer    = billing_profile.stripe_cust_id,
+            source      = card_obj.stripe_cust_id,
+            metadata    = {"order_id": order_obj.order_id},
+        )
+        new_charge_obj = self.model(
+            billing_profile = billing_profile,
+            stripe_cust_id  = created_charge.id,
+            paid            = created_charge.paid,
+            refunded        = created_charge.refunded,
+            outcome         = created_charge.outcome,
+            outcome_type    = created_charge.outcome["type"],
+            seller_message  = created_charge.outcome["seller_message"],
+            risk_level      = created_charge.outcome["risk_level"],
+        )
+        new_charge_obj.save()
+        return new_charge_obj.paid, new_charge_obj.seller_message
+
+class Charge(models.Model):
+    billing_profile = models.ForeignKey(BillingProfile, on_delete=models.CASCADE)
+    stripe_cust_id  = models.CharField(max_length=120, null=True, blank=True)
+    paid            = models.BooleanField(default=False)
+    refunded        = models.BooleanField(default=False)
+    outcome         = models.TextField(null=True, blank=True)
+    outcome_type    = models.CharField(max_length=120, null=True, blank=True)
+    seller_message  = models.CharField(max_length=120, null=True, blank=True)
+    risk_level      = models.CharField(max_length=120, null=True, blank=True)
+
+    objects = ChargeManager()
 
 
 
