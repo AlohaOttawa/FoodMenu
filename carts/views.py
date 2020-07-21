@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
@@ -10,6 +12,11 @@ from billing.models import BillingProfile
 from menu.models import MenuItem
 from orders.models import Order
 from .models import Cart
+
+import stripe
+STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY", "sk_test_C8dhHUK0Q9ByFzNOuQ10QHyi00tS0LViDj")
+STRIPE_PUB_KEY = getattr(settings, "STRIPE_PUB_KEY", "pk_test_W9demQ8ttDK68G9qs3kb3z3i00kMEeETKZ")
+stripe.api_key = STRIPE_SECRET_KEY
 
 
 def cart_detail_api_view(request):
@@ -86,6 +93,9 @@ def checkout_home(request):
     # reset addresses for user to pick from
     address_qs = None
 
+    # incorporate Stripe for billings.model
+    has_card = False
+
     if billing_profile is not None:
         if request.user.is_authenticated:
             address_qs = Address.objects.filter(billing_profile=billing_profile)
@@ -98,6 +108,8 @@ def checkout_home(request):
             del request.session["billing_address_id"]
         if billing_address_id or shipping_address_id:
             order_obj.save()
+            # if the billing profile has a card, obtain from the model
+        has_card = billing_profile.has_card
 
     if request.method == "POST":
         is_prepared = order_obj.check_done()
@@ -118,6 +130,8 @@ def checkout_home(request):
         "guest_form": guest_form,
         "address_form": address_form,
         "address_qs": address_qs,
+        "has_card": has_card,
+        "publish_key": STRIPE_PUB_KEY,
     }
 
     return render(request, "carts/checkout.html", context)

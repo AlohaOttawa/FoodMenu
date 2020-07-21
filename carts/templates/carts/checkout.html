@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    Order ID: {{ object.order_id }} <br>
-    Cart ID:  {{ object.cart_id }}
+   <!-- Order ID: {{ object.order_id }} <br>
+    Cart ID:  {{ object.cart_id }} -->
 
 
     {% if not billing_profile %}
@@ -60,26 +60,31 @@
 
         {% else %}
 
-            <h1>Finalize Checkout</h1>
-            <br><br>
-            <p>Menu Items: {% for menuitem in object.cart.menuitems.all %}{{ menuitem }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+            {% if not has_card %}
+                <!-- Enter credit card info here-->
+                <div class="stripe-payment-form" data-token="{{ publish_key }}"
+                     data-next-url="{{ request.build_absolute_uri }}" data-btn-title="Add payment method">
+                </div>
 
-            <p> Shipping Address: {{ object.shipping_address.get_address }} </p>
-            <p> Billing Address:  {{ object.billing_address.get_address }}</p>
+            {% else %}
+                <h1>Finalize Checkout</h1>
+                <br><br>
+                <p>Menu Items: {% for menuitem in object.cart.menuitems.all %}{{ menuitem }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 
-            <p>Cart Total: {{ object.cart.total }}</p>
-            <p>Shipping Total: {{ object.shipping_total }}</p>
-            <p><b>Total:  {{ object.total }}</b></p>
-            <p>Order ID:  {{ object.order_id }}</p>
+                <p> Shipping Address: {{ object.shipping_address.get_address }} </p>
+                <p> Billing Address:  {{ object.billing_address.get_address }}</p>
 
-            <!-- <p>Cart Object: {{ object.cart }}  </p> -->
+                <p>Cart Total: {{ object.cart.total }}</p>
+                <p>Shipping Total: {{ object.shipping_total }}</p>
+                <p><b>Total:  {{ object.total }}</b></p>
+                <p>Order ID:  {{ object.order_id }}</p>
 
-            <form class="form" method="POST" action="">{% csrf_token %}
-                <button type="submit" class="btn btn-success">Checkout</button>
-            </form>
+                <!-- <p>Cart Object: {{ object.cart }}  </p> -->
 
-
-
+                <form class="form" method="POST" action="">{% csrf_token %}
+                    <button type="submit" class="btn btn-success">Checkout</button>
+                </form>
+            {% endif %}
         {% endif %}
 
     {% endif %}

@@ -1,11 +1,14 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.utils.http import is_safe_url
 
 # Create your views here.
 import stripe
-stripe.api_key = "sk_test_C8dhHUK0Q9ByFzNOuQ10QHyi00tS0LViDj"
-STRIPE_PUB_KEY = "pk_test_W9demQ8ttDK68G9qs3kb3z3i00kMEeETKZ"
+STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY", "sk_test_C8dhHUK0Q9ByFzNOuQ10QHyi00tS0LViDj")
+STRIPE_PUB_KEY = getattr(settings, "STRIPE_PUB_KEY", "pk_test_W9demQ8ttDK68G9qs3kb3z3i00kMEeETKZ")
+
+stripe.api_key = STRIPE_SECRET_KEY
 
 from .models import BillingProfile, Card
 

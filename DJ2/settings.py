@@ -55,6 +55,9 @@ AUTH_USER_MODEL = "accounts.User"   # changes built-in Django user model to menu
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_ENDSESSION = False
 
+STRIPE_SECRET_KEY = "sk_test_C8dhHUK0Q9ByFzNOuQ10QHyi00tS0LViDj"
+STRIPE_PUB_KEY = "pk_test_W9demQ8ttDK68G9qs3kb3z3i00kMEeETKZ"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
