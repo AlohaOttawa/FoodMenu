@@ -61,7 +61,7 @@ class BillingProfile(models.Model):
     def charge(self, order_obj, card=None):
         return Charge.objects.do_charge(self, order_obj, card)
 
-    def get_cards(self):
+    def get_cards(self):    # OOP add filter property all below in card manager
         return self.card_set.all()
 
     @property
@@ -75,6 +75,13 @@ class BillingProfile(models.Model):
         if default_cards.exists():
             return default_cards.first()
         return None
+
+        # inactivate the cards so that user is required to enter
+        # so the card nbr is not reused for next guest user
+    def set_cards_inactive(self):
+        cards_qs = self.get_cards()
+        cards_qs.update(active=False)
+        return cards_qs.filter(active=True).count()
 
 def billing_profile_created_receiver(sender, instance, *args, **kwargs):
     if not instance.stripe_cust_id and instance.email:
@@ -98,8 +105,12 @@ def user_created_receiver(sender, instance, created, *args, **kwargs):
 post_save.connect(user_created_receiver, sender=User)
 
 class CardManager(models.Manager):
-    # def add_new(self, billing_profile, stripe_card_response):
-     def add_new(self, billing_profile, token):
+        # Overide to include only active = True.  Don't pull in inactive cards
+    def all(self, *args, **kwargs):
+        return self.get_queryset().filter(active=True)
+
+        # def add_new(self, billing_profile, stripe_card_response):
+    def add_new(self, billing_profile, token):
             # use the if-token to handle in the class.  Previous was managed via view args
             # if str(stripe_card_response.object) == "card":
         if token:
@@ -129,6 +140,8 @@ class Card(models.Model):
     exp_year            = models.IntegerField(null=True, blank=True)
     last4               = models.CharField(max_length=4, null=True, blank=True)
     default             = models.BooleanField(default=True)
+    active              = models.BooleanField(default=True)
+    timestamp           = models.DateTimeField(auto_now_add=True)
 
     objects = CardManager()
 
