@@ -36,8 +36,17 @@ class ObjectViewed(models.Model):
     # instance and request per signals.py def signal with 'instance', 'request' parms
 def object_viewed_receiver(sender, instance, request, *args, **kwargs):
     con_type = ContentType.objects.get_for_model(sender)    # same as instance.__class__
+    user_session_key = request.session.session_key
+    try:
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = None
+    except:
+        pass
+
     new_view_obj = ObjectViewed.objects.create(
-        user = request.user,
+        user = user,
         content_type = con_type,
         object_id = instance.id,
         ip_address = get_client_ip(request)
@@ -98,7 +107,7 @@ if FORCE_INACTIVE_USER_ENDSESSION:
 
 
 def user_logged_in_receiver(sender, instance, request, *args, **kwargs):
-    print(instance)
+    # print(instance)
     user = instance
     ip_address = get_client_ip(request)
     session_key = request.session.session_key
