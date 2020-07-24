@@ -15,3 +15,4 @@ urlpatterns = [
     re_path(r'^checkout/success/$', checkout_done_view, name='success'),
     re_path(r'^checkout/$', checkout_home, name='checkout'),
 ]
+

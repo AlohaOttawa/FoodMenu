@@ -70,10 +70,20 @@ $(document).ready(function(){
             }
         });
 
-        // Handle form submission.
-        var form = document.getElementById('payment-form');
+        // Handle form submission. -- below is JS.  Changing it to
+        // JQuery below for better mgmt
+
+/*        var form = document.getElementById('payment-form');
         form.addEventListener('submit', function (event) {
             event.preventDefault();
+
+            // Get the button and then display the new button UI - 148
+
+            var loadTime = 1500
+            var errorHtml = "<i class='fa fa-warning'></i> An error occurred"
+            var errorClasses = "btn btn-danger disabled my-3"
+            var loadingHtml = "<i class='fa fa-spin fa-spinner'></i> Loading ..."
+            var loadingClasses = "btn btn-success disabled my-3"
 
             stripe.createToken(card).then(function (result) {
                 if (result.error) {
@@ -85,8 +95,78 @@ $(document).ready(function(){
                     stripeTokenHandler(nextUrl, result.token);
                 }
             });
+        });*/
+
+        // Copy of above but now this is JQuery vs Javascript
+        var form = $('#payment-form');  // JQuery uses # vs GetElementbyID
+        var btnLoad = form.find(".btn-load")
+        var btnLoadDefaultHtml = btnLoad.html()
+        var btnLoadDefaultClasses = btnLoad.attr("class")
+
+        // addEventListener replace by 'on'
+        form.on('submit', function (event) {
+            event.preventDefault();
+
+            // Get the button and then display the new button UI - 148
+
+            var $this = $(this)
+            // btnLoad = $this.find(".btn-load")  -- moved above to be outside of method
+            btnLoad.blur()
+            var loadTime = 1500
+            var currentTimeout;
+            var errorHtml = "<i class='fa fa-warning'></i> An error occurred"
+            var errorClasses = "btn btn-danger disabled my-3"
+            var loadingHtml = "<i class='fa fa-spin fa-spinner'></i> Loading ..."
+            var loadingClasses = "btn btn-success disabled my-3"
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = $('#card-errors');
+                    errorElement.textContent = result.error.message;
+                    currentTimeout = displayBtnStatus(
+                                btnLoad,
+                                errorHtml,
+                                errorClasses,
+                                1000,
+                                currentTimeout
+                                )
+
+                } else {
+                    // Send the token to your server.
+                    currentTimeout = displayBtnStatus(
+                                btnLoad,
+                                loadingHtml,
+                                loadingClasses,
+                                2000,
+                                currentTimeout
+                                )
+                    stripeTokenHandler(nextUrl, result.token);
+                }
+            });
         });
 
+        // manage the above to make it dynamic before and after
+
+        function displayBtnStatus(element, newHtml, newClasses, loadTime, timeout){
+            // existing element.html before changing it, then returning it after
+            /*            if (timeout){
+                            clearTimeout(timeout)
+                        }*/
+            if (!loadTime){
+                loadTime = 1500
+            }
+            // var defaultHtml = element.html()  -- moved to be outside of method
+            // var defaultClasses = element.attr("class")  -- same as above
+            element.html(newHtml)
+            element.removeClass(btnLoadDefaultClasses)
+            element.addClass(newClasses)
+            return setTimeout(function(){
+                element.html(btnLoadDefaultHtml)
+                element.removeClass(newClasses)
+                element.addClass(btnLoadDefaultClasses)
+            }, loadTime)
+        }
 
         function redirectToNext(nextPath, timeoffset) {
             if (nextPath) {
@@ -120,10 +200,15 @@ $(document).ready(function(){
                     } else {
                         alert(successMsg)
                     }
+                    btnLoad.html(btnLoadDefaultHtml)
+                    btnLoad.attr("class", btnLoadDefaultClasses)
                     redirectToNext(nextUrl, 1500)
                 },
                 error: function (error) {
                     console.log(error)
+                    $.alert({title: "An error occurred", content: "Please enter card number again"})
+                    btnLoad.html(btnLoadDefaultHtml)
+                    btnLoad.attr("class", btnLoadDefaultClasses)
                 }
             })
         }
