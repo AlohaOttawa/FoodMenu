@@ -58,7 +58,7 @@ FORCE_INACTIVE_USER_ENDSESSION = False
 
 
 
-MAILCHIMP_API_KEY           = '13125a72a7f53845447d3c45a594f686-us17'
+MAILCHIMP_API_KEY           = 'do not put on git'
 # the format is '{api_key_base}-{data_center_loc}'
 MAILCHIMP_DATA_CENTER       = 'us17'
 MAILCHIMP_EMAIL_LIST_ID     = "f0f91d25e7"
