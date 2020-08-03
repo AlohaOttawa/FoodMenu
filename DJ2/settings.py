@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "analytics",
     'billing',
     'accounts',
+    'marketing',
     'orders',
     'search',
     'tags',
@@ -54,6 +55,14 @@ AUTH_USER_MODEL = "accounts.User"   # changes built-in Django user model to menu
 
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_ENDSESSION = False
+
+
+
+MAILCHIMP_API_KEY           = '13125a72a7f53845447d3c45a594f686-us17'
+# the format is '{api_key_base}-{data_center_loc}'
+MAILCHIMP_DATA_CENTER       = 'us17'
+MAILCHIMP_EMAIL_LIST_ID     = "f0f91d25e7"
+
 
 STRIPE_SECRET_KEY = "sk_test_C8dhHUK0Q9ByFzNOuQ10QHyi00tS0LViDj"
 STRIPE_PUB_KEY = "pk_test_W9demQ8ttDK68G9qs3kb3z3i00kMEeETKZ"
