@@ -58,7 +58,7 @@ FORCE_INACTIVE_USER_ENDSESSION = False
 
 
 
-MAILCHIMP_API_KEY           = 'blahblah'
+MAILCHIMP_API_KEY           = ''
 # the format is '{api_key_base}-{data_center_loc}'
 MAILCHIMP_DATA_CENTER       = 'us17'
 MAILCHIMP_EMAIL_LIST_ID     = "f0f91d25e7"

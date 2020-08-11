@@ -27,6 +27,7 @@ from addresses.views import checkout_address_create_view, checkout_address_reuse
 from carts.views import cart_detail_api_view
 from .views import home_page, about_page, contact_page
 from billing.views import payment_method_view, payment_method_createview
+from marketing.views import MarketingPreferenceUpdateView
 
         # from carts.views import cart_home, cart_update
 
@@ -64,6 +65,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('menuitems/', include(("menu.urls", 'menuitems'))),
     path('search/', include(("search.urls", 'search'))),
+    path('settings/email/', MarketingPreferenceUpdateView.as_view(), name='marketing-pref'),
     # path('menuitems/', MenuListView.as_view()),
     # path('featured/', MenuFeaturedListView.as_view()),
     # re_path('featured/(?P<pk>\d+)/$', MenuFeaturedDetailView.as_view(), name='details'),

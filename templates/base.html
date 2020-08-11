@@ -18,15 +18,25 @@
         {% include "base/navbar.html" with brand_name="Hal's CRV19 Foods" %}
 
         <div class="container">
+            {% if messages %}
+                <div class="alert alert-success messages">
+                    {% for message in messages %}
+                        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                            {{ message }}<br/>
+                        </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
             {% block content %}
             {% endblock content %}
         </div>
 
                 <!-- JQuery starts here -->
-
         {% include "base/js.html" %}
 
         {% block javascript %}
+
         {% endblock %}
 
     </body>
